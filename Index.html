@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImageResizer Pro | Free Online Image Resizing Tool</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 5px 10px;
+            border-radius: var(--border-radius);
+        }
+
+        nav a:hover {
+            color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 60px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #4361ee, #7209b7);
+            color: white;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .upload-section, .preview-section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            font-size: 1.5rem;
+        }
+
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed var(--gray);
+            border-radius: var(--border-radius);
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            margin-bottom: 15px;
+        }
+
+        .upload-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .upload-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        /* Resize Controls */
+        .resize-controls {
+            margin-top: 25px;
+        }
+
+        .dimension-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+
+        .aspect-ratio {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .aspect-ratio input {
+            margin-right: 5px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--light);
+            color: var(--dark);
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e9ecef;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #3ab0d9;
+        }
+
+        /* Preview Section */
+        .preview-container {
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 20px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            display: none;
+        }
+
+        .image-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .info-value {
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 992px) {
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--success);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #495057;
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+
+            nav {
+                width: 100%;
+                margin-top: 15px;
+                display: none;
+            }
+
+            nav.active {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .dimension-inputs {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Page Sections */
+        .page-section {
+            display: none;
+            padding: 60px 0;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .page-content {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-content h2 {
+            margin: 25px 0 15px;
+            color: var(--secondary);
+        }
+
+        .page-content p {
+            margin-bottom: 15px;
+        }
+
+        .page-content ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--light);
+            color: var(--dark);
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🖼️</span>
+                    <span>ImageResizer Pro</span>
+                </div>
+                <button class="mobile-menu-btn">☰</button>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-link" data-page="home">Home</a></li>
+                        <li><a href="#" class="nav-link" data-page="about">About Us</a></li>
+                        <li><a href="#" class="nav-link" data-page="contact">Contact</a></li>
+                        <li><a href="#" class="nav-link" data-page="disclaimer">Disclaimer</a></li>
+                        <li><a href="#" class="nav-link" data-page="privacy">Privacy Policy</a></li>
+                        <li><a href="#" class="nav-link" data-page="terms">Terms & Conditions</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <section id="home" class="page-section active">
+        <div class="hero">
+            <div class="container">
+                <h1>Resize Your Images in Seconds</h1>
+                <p>Free online tool to resize your images without losing quality. Perfect for social media, websites, and more.</p>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="main-content">
+                <!-- Upload Section -->
+                <div class="upload-section">
+                    <h2 class="section-title">
+                        <span>📤</span> Upload Image
+                    </h2>
+                    <div class="upload-area" id="upload-area">
+                        <div class="upload-icon">📁</div>
+                        <p class="upload-text">Drag & drop your image here or click to browse</p>
+                        <button class="upload-btn">Choose File</button>
+                        <input type="file" id="file-input" accept="image/*">
+                    </div>
+
+                    <div class="resize-controls">
+                        <h2 class="section-title">
+                            <span>📏</span> Resize Options
+                        </h2>
+                        <div class="dimension-inputs">
+                            <div class="input-group">
+                                <label for="width">Width (px)</label>
+                                <input type="number" id="width" placeholder="Enter width">
+                            </div>
+                            <div class="input-group">
+                                <label for="height">Height (px)</label>
+                                <input type="number" id="height" placeholder="Enter height">
+                            </div>
+                        </div>
+                        <div class="aspect-ratio">
+                            <input type="checkbox" id="maintain-ratio" checked>
+                            <label for="maintain-ratio">Maintain aspect ratio</label>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" id="resize-btn">
+                                <span>🔄</span> Resize Image
+                            </button>
+                            <button class="btn btn-secondary" id="reset-btn">
+                                <span>🔄</span> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview Section -->
+                <div class="preview-section">
+                    <h2 class="section-title">
+                        <span>👁️</span> Preview
+                    </h2>
+                    <div class="preview-container">
+                        <img id="preview-image" class="preview-image" src="" alt="Preview">
+                        <p id="preview-placeholder">Your resized image will appear here</p>
+                    </div>
+                    <div class="image-info">
+                        <div class="info-item">
+                            <div class="info-label">Original Size</div>
+                            <div class="info-value" id="original-size">-</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">New Size</div>
+                            <div class="info-value" id="new-size">-</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Format</div>
+                            <div class="info-value" id="image-format">-</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-success" id="download-btn" disabled>
+                        <span>💾</span> Download Resized Image
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Page -->
+    <section id="about" class="page-section">
+        <div class="container">
+            <a href="#" class="back-btn nav-link" data-page="home">← Back to Home</a>
+            <h1 class="page-title">About Us</h1>
+            <div class="page-content">
+                <h2>Our Mission</h2>
+                <p>At ImageResizer Pro, our mission is to provide a simple, fast, and free solution for all your image resizing needs. We believe that everyone should have access to high-quality image editing tools without the complexity of professional software.</p>
+                
+                <h2>What We Offer</h2>
+                <p>Our online image resizer allows you to resize your images quickly and easily. Whether you need to adjust images for social media, websites, or personal use, our tool maintains image quality while giving you complete control over dimensions.</p>
+                
+                <h2>Why Choose Us?</h2>
+                <ul>
+                    <li>Completely free with no hidden costs</li>
+                    <li>No registration required</li>
+                    <li>Your images are processed securely in your browser</li>
+                    <li>Fast and efficient resizing algorithm</li>
+                    <li>Responsive design that works on all devices</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Page -->
+    <section id="contact" class="page-section">
+        <div class="container">
+            <a href="#" class="back-btn nav-link" data-page="home">← Back to Home</a>
+            <h1 class="page-title">Contact Us</h1>
+            <div class="page-content">
+                <h2>Get In Touch</h2>
+                <p>We'd love to hear from you! Whether you have a question, suggestion, or need support, feel free to reach out to us.</p>
+                
+                <h2>Contact Information</h2>
+                <p><strong>Email:</strong> support@imageresizerpro.com</p>
+                <p><strong>Feedback:</strong> feedback@imageresizerpro.com</p>
+                
+                <h2>Send Us a Message</h2>
+                <p>If you prefer to contact us directly, please use the email addresses above. We typically respond within 24-48 hours.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disclaimer Page -->
+    <section id="disclaimer" class="page-section">
+        <div class="container">
+            <a href="#" class="back-btn nav-link" data-page="home">← Back to Home</a>
+            <h1 class="page-title">Disclaimer</h1>
+            <div class="page-content">
+                <h2>General Information</h2>
+                <p>The information provided by ImageResizer Pro ("we," "us," or "our") on https://imageresizerpro.com (the "Site") is for general informational purposes only. All information on the Site is provided in good faith, however we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, availability, or completeness of any information on the Site.</p>
+                
+                <h2>Image Processing</h2>
+                <p>Our image resizing tool processes images directly in your browser. We do not store, transmit, or have access to your images at any point during the resizing process. Your privacy and the security of your images are our top priorities.</p>
+                
+                <h2>External Links</h2>
+                <p>The Site may contain (or you may be sent through the Site) links to other websites or content belonging to or originating from third parties. Such external links are not investigated, monitored, or checked for accuracy, adequacy, validity, reliability, availability, or completeness by us.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Policy Page -->
+    <section id="privacy" class="page-section">
+        <div class="container">
+            <a href="#" class="back-btn nav-link" data-page="home">← Back to Home</a>
+            <h1 class="page-title">Privacy Policy</h1>
+            <div class="page-content">
+                <h2>Information We Collect</h2>
+                <p>ImageResizer Pro is committed to protecting your privacy. Our service is designed with privacy in mind:</p>
+                <ul>
+                    <li>We do not collect or store any personal information</li>
+                    <li>We do not require registration or account creation</li>
+                    <li>All image processing happens locally in your browser</li>
+                    <li>We do not upload your images to our servers</li>
+                </ul>
+                
+                <h2>Cookies and Tracking</h2>
+                <p>We may use minimal cookies to enhance your user experience, such as remembering your preference for maintaining aspect ratio. These cookies do not contain personally identifiable information.</p>
+                
+                <h2>Third-Party Services</h2>
+                <p>We do not share any information with third-party services as we do not collect any personal data. Our website may contain links to other sites, but we are not responsible for their privacy practices.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Terms & Conditions Page -->
+    <section id="terms" class="page-section">
+        <div class="container">
+            <a href="#" class="back-btn nav-link" data-page="home">← Back to Home</a>
+            <h1 class="page-title">Terms & Conditions</h1>
+            <div class="page-content">
+                <h2>Acceptance of Terms</h2>
+                <p>By accessing and using ImageResizer Pro, you accept and agree to be bound by the terms and provision of this agreement.</p>
+                
+                <h2>Use License</h2>
+                <p>Permission is granted to temporarily use ImageResizer Pro for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title.</p>
+                
+                <h2>User Responsibilities</h2>
+                <p>You are responsible for ensuring that you have the right to resize any images you upload to our service. You agree not to use the service for any illegal or unauthorized purpose.</p>
+                
+                <h2>Limitations</h2>
+                <p>In no event shall ImageResizer Pro or its suppliers be liable for any damages arising out of the use or inability to use the service.</p>
+                
+                <h2>Revisions</h2>
+                <p>ImageResizer Pro may revise these terms of service at any time without notice. By using this website, you are agreeing to be bound by the then-current version of these terms.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ImageResizer Pro</h3>
+                    <p>Free online image resizing tool that helps you resize your images quickly and easily without losing quality.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#" class="nav-link" data-page="home">Home</a></li>
+                        <li><a href="#" class="nav-link" data-page="about">About Us</a></li>
+                        <li><a href="#" class="nav-link" data-page="contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#" class="nav-link" data-page="disclaimer">Disclaimer</a></li>
+                        <li><a href="#" class="nav-link" data-page="privacy">Privacy Policy</a></li>
+                        <li><a href="#" class="nav-link" data-page="terms">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <p>If you need help or have questions, please contact us at support@imageresizerpro.com</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 ImageResizer Pro. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const fileInput = document.getElementById('file-input');
+        const uploadArea = document.getElementById('upload-area');
+        const previewImage = document.getElementById('preview-image');
+        const previewPlaceholder = document.getElementById('preview-placeholder');
+        const widthInput = document.getElementById('width');
+        const heightInput = document.getElementById('height');
+        const maintainRatioCheckbox = document.getElementById('maintain-ratio');
+        const resizeBtn = document.getElementById('resize-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const downloadBtn = document.getElementById('download-btn');
+        const originalSizeElement = document.getElementById('original-size');
+        const newSizeElement = document.getElementById('new-size');
+        const imageFormatElement = document.getElementById('image-format');
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('nav');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pageSections = document.querySelectorAll('.page-section');
+
+        // Variables
+        let originalImage = null;
+        let originalWidth = 0;
+        let originalHeight = 0;
+        let aspectRatio = 0;
+
+        // Event Listeners
+        uploadArea.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleImageUpload);
+        resizeBtn.addEventListener('click', resizeImage);
+        resetBtn.addEventListener('click', resetTool);
+        downloadBtn.addEventListener('click', downloadImage);
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+
+        // Navigation
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const page = link.getAttribute('data-page');
+                showPage(page);
+                
+                // Close mobile menu if open
+                if (nav.classList.contains('active')) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        // Aspect ratio handling
+        widthInput.addEventListener('input', handleDimensionChange);
+        heightInput.addEventListener('input', handleDimensionChange);
+
+        // Functions
+        function handleImageUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (!file.type.match('image.*')) {
+                alert('Please select a valid image file.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                originalImage = new Image();
+                originalImage.onload = function() {
+                    originalWidth = originalImage.width;
+                    originalHeight = originalImage.height;
+                    aspectRatio = originalWidth / originalHeight;
+
+                    // Set initial dimensions
+                    widthInput.value = originalWidth;
+                    heightInput.value = originalHeight;
+
+                    // Show original image info
+                    originalSizeElement.textContent = `${originalWidth} × ${originalHeight}`;
+                    newSizeElement.textContent = `${originalWidth} × ${originalHeight}`;
+                    
+                    // Get image format
+                    const format = file.name.split('.').pop().toUpperCase();
+                    imageFormatElement.textContent = format;
+
+                    // Show preview
+                    previewImage.src = event.target.result;
+                    previewImage.style.display = 'block';
+                    previewPlaceholder.style.display = 'none';
+
+                    // Enable download button
+                    downloadBtn.disabled = false;
+                };
+                originalImage.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleDimensionChange(e) {
+            if (!maintainRatioCheckbox.checked || !originalImage) return;
+
+            if (e.target.id === 'width') {
+                const newWidth = parseInt(widthInput.value) || 0;
+                const newHeight = Math.round(newWidth / aspectRatio);
+                heightInput.value = newHeight;
+            } else if (e.target.id === 'height') {
+                const newHeight = parseInt(heightInput.value) || 0;
+                const newWidth = Math.round(newHeight * aspectRatio);
+                widthInput.value = newWidth;
+            }
+        }
+
+        function resizeImage() {
+            if (!originalImage) {
+                alert('Please upload an image first.');
+                return;
+            }
+
+            const newWidth = parseInt(widthInput.value) || originalWidth;
+            const newHeight = parseInt(heightInput.value) || originalHeight;
+
+            // Validate dimensions
+            if (newWidth <= 0 || newHeight <= 0) {
+                alert('Please enter valid dimensions (greater than 0).');
+                return;
+            }
+
+            if (newWidth > 10000 || newHeight > 10000) {
+                alert('Maximum dimension allowed is 10000px.');
+                return;
+            }
+
+            // Create canvas for resizing
+            const canvas = document.createElement('canvas');
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(originalImage, 0, 0, newWidth, newHeight);
+
+            // Update preview
+            previewImage.src = canvas.toDataURL();
+
+            // Update size info
+            newSizeElement.textContent = `${newWidth} × ${newHeight}`;
+        }
+
+        function resetTool() {
+            if (originalImage) {
+                widthInput.value = originalWidth;
+                heightInput.value = originalHeight;
+                previewImage.src = originalImage.src;
+                newSizeElement.textContent = `${originalWidth} × ${originalHeight}`;
+            } else {
+                fileInput.value = '';
+                widthInput.value = '';
+                heightInput.value = '';
+                previewImage.src = '';
+                previewImage.style.display = 'none';
+                previewPlaceholder.style.display = 'block';
+                originalSizeElement.textContent = '-';
+                newSizeElement.textContent = '-';
+                imageFormatElement.textContent = '-';
+                downloadBtn.disabled = true;
+            }
+        }
+
+        function downloadImage() {
+            if (!previewImage.src) {
+                alert('No image to download.');
+                return;
+            }
+
+            const link = document.createElement('a');
+            link.download = `resized-image-${widthInput.value}x${heightInput.value}.png`;
+            link.href = previewImage.src;
+            link.click();
+        }
+
+        function toggleMobileMenu() {
+            nav.classList.toggle('active');
+        }
+
+        function showPage(pageId) {
+            // Hide all pages
+            pageSections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // Initialize tool
+        resetTool();
+    </script>
+</body>
+</html>
